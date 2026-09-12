@@ -1,0 +1,12 @@
+@if(multiple) {
+    <p-floatlabel>
+        <p-multiselect id="SlcTipoVias" [options]="tipos" [ngModel]="seleccionados()" optionLabel="nombre" fluid (ngModelChange)="onCuandoCambioModeloMultiple($event)"></p-multiselect>
+        <label for="SlcTipoVias">{{placeholder}}</label>
+    </p-floatlabel>
+}
+@else {
+    <p-floatlabel>
+        <p-select id="SlcTipoVia" [options]="tipos" optionLabel="nombre" [ngModel]="seleccionado()" (ngModelChange)="onCuandoCambiaModelo($event)" fluid></p-select>
+        <label for="SlcTipoVia">{{this.placeholder}}</label>
+    </p-floatlabel>
+}

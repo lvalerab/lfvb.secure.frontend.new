@@ -1,0 +1,87 @@
+<p-stepper [value]="1">
+    <p-step-list>
+        <p-step [value]="1">Datos básicos</p-step>        
+        <!--<p-step [value]="2">Propiedades</p-step>
+        <p-step [value]="3">Elementos</p-step>-->
+        <p-step [value]="2">Resumen</p-step>
+    </p-step-list>
+    <p-step-panels>
+        <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                    <div>
+                        <p-inputgroup> 
+                            <p-floatlabel variant="on">
+                                <input id="TBoxCodigo" pInputText [(ngModel)]="aplicacion.codigo" (change)="ValidarCodigoAplicacion($event)" required/>
+                                <label for="TBoxCodigo">Codigo</label>
+                            </p-floatlabel>           
+                        </p-inputgroup>
+                        <p-inputgroup> 
+                            <p-floatlabel variant="on">
+                                <input id="TBoxNombre" pInputText [(ngModel)]="aplicacion.nombre" required/>
+                                <label for="TBoxNombre">Nombre</label>
+                            </p-floatlabel>           
+                        </p-inputgroup>
+                    </div>
+                </div>
+                <div class="flex pt-6 justify-between">                
+                    <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+        <!--<p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                    <div>                       
+                        <p-menubar [model]="opcionesPropiedades"></p-menubar>
+                        <hr/>
+                        <p-table [value]="aplicacion.propiedades??[]">
+                            <ng-template #header>
+
+                            </ng-template>
+                            <ng-template #body let-propiedad>
+
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                    <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+        <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">           
+                    <p-menubar [model]="opcionesElementos"></p-menubar>
+                    <hr/>
+                    <p-table [value]="aplicacion.elementos">
+                        <ng-template #header>
+
+                        </ng-template>
+                        <ng-template #body let-elemento>
+
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                    <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(4)" />
+                </div>
+            </ng-template>
+        </p-step-panel> -->
+        <p-step-panel [value]="2">
+        <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                        Codigo: {{aplicacion.codigo}}<br/>
+                        Nombre: {{aplicacion.nombre}}<br/>                        
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                    <p-button label="Alta aplicacion" severity="success" icon="pi pi-save" iconPos="right" (onClick)="AltaApliacion()" *ngIf="correcto" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+    </p-step-panels>
+</p-stepper>

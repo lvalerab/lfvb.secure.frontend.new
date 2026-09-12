@@ -1,0 +1,6 @@
+@if(SoloLectura) {
+    <p><b>{{Label}}: </b><span>{{tipo()?.nombre??'-Sin definir-'}}</span></p>
+} 
+@else {    
+    <lfvb-input-component [(modelo)]="tipo" [Opciones]="tipos" Tipo="Select" OpcionLabel="nombre" ValorVisibleModelo="nombre" [Label]="Label"></lfvb-input-component>
+}

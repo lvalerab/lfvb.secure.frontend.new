@@ -1,0 +1,92 @@
+<p-stepper [value]="1">
+    <p-step-list>
+        <p-step [value]="1">Datos básicos</p-step>
+        <p-step [value]="2">Usuarios</p-step>        
+        <p-step [value]="3">Resumen</p-step>
+    </p-step-list>
+    <p-step-panels>
+        <p-step-panel [value]="1">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                        <div>
+                            <p-inputgroup> 
+                                <p-floatlabel variant="on">
+                                    <input id="TBoxNombre" pInputText [(ngModel)]="grupo.nombre" required/>
+                                    <label for="TBoxNombre">Nombre</label>
+                                </p-floatlabel>           
+                            </p-inputgroup>
+                        </div>
+                        <div>
+                            <p-inputgroup>
+                                <p-floatlabel variant="on">
+                                    <p-select [(ngModel)]="grupo.aplicacion" inputId="SlcAplicacion" optionLabel="nombre" [options]="aplicaciones" styleClass="w-full"></p-select>
+                                    <label for="SlcAplicacion"></label>
+                                </p-floatlabel>
+                            </p-inputgroup>
+                        </div>
+                </div>
+                <div class="flex pt-6 justify-between">                
+                    <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+        <p-step-panel [value]="2">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                    <p-picklist 
+                        [source]="usuarios"
+                        [target]="usuariosGrupo"
+                        [dragdrop]="true"
+                        [responsive]="true"
+                        filterBy="usuario"                        
+                        sourceFilterPlaceholder="Filtrar por usuario"
+                        targetFilterPlaceholder="Filtrar por usuario">
+                        <ng-template let-item #item>
+                            {{item.usuario}} - {{item.apellido1}} {{item.apellido2}}, {{item.nombre}}
+                        </ng-template>
+                    </p-picklist>
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                    <p-button label="Siguiente" icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(3)" />
+                </div>
+            </ng-template>
+        </p-step-panel>
+        <p-step-panel [value]="3">
+            <ng-template #content let-activateCallback="activateCallback">
+                <div style="min-height: 300px;min-width: 600px;">
+                    <p>
+                        @if(grupo.nombre) {
+                            Nombre del grupo: {{grupo.nombre}}
+                        }
+                        @else {
+                            <p-message>Debe indicar un nombre para el grupo</p-message>
+                        } 
+                    </p>
+                    <p>
+                        @if(grupo.aplicacion) {
+                            Aplicación: {{grupo.aplicacion?.codigo}} - {{grupo.aplicacion?.nombre}}
+                        } 
+                        @else {
+                            <p-message>Debe seleccionar una aplicación</p-message>
+                        }
+                    </p>
+                   <hr/>
+                   Usuarios:<br/>                   
+                    <ul>
+                        @for(user of usuariosGrupo; track user.id) {
+                            <li>{{user.usuario}} - {{user.apellido1}} {{user.apellido2}}, {{user.nombre}}</li>
+                        }
+                        @empty {
+                            <li>No se han seleccionado usuarios</li>
+                        }
+                    </ul>                   
+                </div>
+                <div class="flex pt-6 justify-between">
+                    <p-button label="Atrás" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                    <p-button label="Alta del grupo" icon="pi pi-plus" iconPos="right" (onClick)="AltaGrupoUsuarios()" *ngIf="grupo.aplicacion && grupo.nombre"/>
+                </div>
+            </ng-template>
+        </p-step-panel>
+    </p-step-panels>
+</p-stepper>

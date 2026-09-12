@@ -1,0 +1,115 @@
+<p-card>
+    <ng-template #header>
+
+    </ng-template>
+    <ng-template #title>
+        Buscador del callejero
+    </ng-template>
+    <ng-template #subtitle>
+        <p-menubar [model]="BuscadorHerramientasItem"></p-menubar>
+    </ng-template>
+    <p-panel [collapsed]="true" header="Panel de busqueda" [toggleable]="true">
+        <ng-template #header>
+            <br/>
+            <p-floatlabel>
+                <input pInputText fluid id="TBoxNombreVia" [(ngModel)]="filtro.nombre"/>
+                <label for="TBoxNombreVia">Nombre via</label>
+            </p-floatlabel>            
+        </ng-template>
+        <br/>        
+        <app-selec-tipos-vias-component [multiple]="true" [id]="'SlcBusqVias'" [(seleccionados)]="filtro.tiposVia" fluid></app-selec-tipos-vias-component>
+        <br/>
+        <br/>
+        <p-tabs>
+            <p-tablist>
+                <p-tab value="0">Entidades territoriales</p-tab>
+                <p-tab value="1">Calles superiores</p-tab>
+            </p-tablist>
+            <p-tabpanels>
+                <!-- Panel para filtar por entidades territoriales-->
+                <p-tabpanel value="0">
+                    <br/>
+                    <br/>
+                    <app-select-entidad-territorial-component [(model)]="entidadSeleccionada" (modelChange)="onSeleccionaEntidad($event)"></app-select-entidad-territorial-component>
+                    <p-divider></p-divider>
+                    <p-table [value]="filtro.entidadesTerritoriales??[]">
+                        <ng-template #header>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-entfil>
+                            <tr>
+                                <td>{{entfil.tipo?.nombre}}</td>
+                                <td>{{entfil.nombre}}</td>
+                                <td>
+                                    <p-button icon="pi pi-trash" (onClick)="EliminarEntidadFiltro(entfil)"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabpanel>
+
+                <!--Panel para filtrar por calles superiores-->
+
+                <p-tabpanel value="1">
+                    <br/>
+                    <app-select-via-component [(model)]="viaSupSeleccionada" (modelChange)="onSeleccionViaSuperior($event)"></app-select-via-component>
+                    <p-divider></p-divider>
+                    <p-table [value]="filtro.callesSuperiores??[]">
+                        <ng-template #header>
+                            <tr>
+                                <th>Entidad</th>
+                                <th>Tipo Via</th>
+                                <th>Via</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-callsup>
+                            <tr>
+                                <td>{{callsup.entidadTerritorial?.nombre}}</td>
+                                <td>{{callsup.tipoVia?.nombre}}</td>
+                                <td>{{callsup.nombre}}</td>
+                                <td><p-button icon="pi pi-trash" (onClick)="eliminarViaSuperior(callsup)"></p-button></td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabpanel>
+                
+            </p-tabpanels>
+        </p-tabs>
+    </p-panel>
+    @if(resultado.length<=0) {
+        <p-message>No se han encontrado ninguna via con los criterios seleccionados</p-message>
+    }
+    @else {
+        <p-table [value]="resultado">
+            <ng-template #header>
+                <tr>
+                    <th>Tipo via</th>
+                    <th>Via</th>
+                    <th>Entidad territorial</th>
+                    <th></th>
+                </tr>                
+            </ng-template>
+            <ng-template #body let-via>
+                <tr>
+                    <td>
+                        {{via.tipoVia?.nombre}}
+                    </td>
+                    <td>
+                        {{via.nombre}}
+                    </td>
+                    <td>
+                        {{via.entidadTerritorial?.nombre}} ({{via.entidadTerritorial?.tipo?.nombre}})
+                    </td>
+                    <td>
+                        <p-button icon="pi pi-check" (onClick)="Seleccion(via)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</p-card>

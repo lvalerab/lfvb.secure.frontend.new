@@ -1,0 +1,17 @@
+<p-card>
+    <ng-template #header>
+
+    </ng-template>
+    <ng-template #title>
+        Mantenimiento del callejero
+    </ng-template>
+    <ng-template #subtitle>
+        <p-megamenu [model]="menu()"/>
+    </ng-template>    
+    @if(objVisible()=="VIA") {
+        <app-ficha-via-component [(via)]="this.via"></app-ficha-via-component>
+    }
+    @if(objVisible()=="ENT") {
+        <app-ficha-entidad-territorial-component [(entidad)]="this.entidad"></app-ficha-entidad-territorial-component>
+    }
+</p-card>

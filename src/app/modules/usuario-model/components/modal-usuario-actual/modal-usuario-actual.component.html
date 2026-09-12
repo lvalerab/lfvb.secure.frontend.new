@@ -1,0 +1,33 @@
+<p-card header="Datos del usuario actual">
+    <ng-template #header>
+       <h1>Ficha del usuario actual</h1>
+    </ng-template>
+    <ng-template #title>
+        <p-splitter [panelSizes]="[20,80]">
+            <ng-template #panel>
+                <p-avatar size="xlarge" [image]="avatar()??''"></p-avatar>
+            </ng-template>
+            <ng-template #panel>
+                <h2>{{usuario()?.apellido1}} {{usuario()?.apellido2}}, {{usuario()?.nombre}}</h2>
+            </ng-template>
+        </p-splitter>
+    </ng-template>
+    <ng-template #subtitle>
+        
+    </ng-template>
+    <div>
+        <h3>Grupos al que pertenece</h3><br>
+        @for(g of usuario()?.grupos;track g.id) {
+            <p-badge [value]="g.nombre??''"></p-badge>&nbsp;
+        }
+    </div>
+    <div>
+        <h3>Credenciales disponibles</h3>
+        @for(c of usuario()?.credenciales; track c.id) {
+            <p-badge [value]="c.tipo?.nombre??''"></p-badge>&nbsp;
+        }
+    </div>
+    <ng-template #footer>
+        <!--<p-button label="Cerrar" class="w-full" styleClass="w-full" (onClick)="CerrarDialogo()"/>-->
+    </ng-template>
+</p-card>

@@ -1,0 +1,41 @@
+<div class="card flex justify-center">
+    <p-panel header="Filtros" [toggleable]="true">
+            <div class="">
+                <div>
+                    <p-inputgroup>
+                        <p-inputgroup-addon>
+                            <i class="pi pi-search"></i>
+                        </p-inputgroup-addon>
+                        <input type="text" name="TBoxFilterCodigo" fluid [(ngModel)]="FiltroCodigo" (ngModelChange)="AplicaFiltro($event,'codigo')" placeholder="Código"/>
+                    </p-inputgroup>
+                </div>
+                <div class="col-span-3">
+                    <p-inputgroup>                
+                        <p-inputgroup-addon>
+                            <i class="pi pi-search"></i>
+                        </p-inputgroup-addon>
+                        <input type="text" name="TBoxFiltroNombre" fluid [(ngModel)]="FiltroNombre" (ngModelChange)="AplicaFiltro($event,'nombre')" placeholder="Nombre"/>
+                    </p-inputgroup>    
+                </div>
+            </div>
+    </p-panel>
+</div>
+<p-message severity="warn" *ngIf="MsgError=='' && Elementos.length<=0" variant="outlined">No se han encontrado elementos para este usuario</p-message>
+<p-message severity="warn" *ngIf="MsgError=='' && Elementos.length>0 && ElementosFiltrados().length<=0" variant="outlined">No se han encontrado elementos para el filtro aplicado</p-message>
+<p-message severity="error" *ngIf="MsgError!=''" variant="outlined">{{MsgError}}</p-message>
+<p-table [value]="ElementosFiltrados()" *ngIf="ElementosFiltrados().length>0" selectionMode='single' [(selection)]="ElementoSeleccionado" (onRowSelect)="CuandoSeleccionaFila($event)">
+    <ng-template #header>
+        <tr>
+            <th>Código</th>
+            <th>Tipo</th>
+            <th>Nombre</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-elemento>
+        <tr [pSelectableRow]="elemento">
+            <td>{{elemento.id}}</td>
+            <td>{{elemento.tipo}}</td>
+            <td>{{elemento.etiqueta}}</td>
+        </tr>
+    </ng-template>
+</p-table>
